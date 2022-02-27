@@ -3,22 +3,27 @@ from broker import rabbitmq_producer
 
 
 class Camera:
-    def __init__(self, name, type_signal):
+    def __init__(self, name, route_destination, number_signals, signals_initial_state):
         self.name = name
         self.channel = rabbitmq_producer()
-        self.routing_key = "ingredients.chef.robot"  # TODO: Parametrize this
-
-        while True:
-            self.simulate_trigger_signal()
-            sleep(5)
+        self.routing_key = route_destination
+        self.signals = [signals_initial_state for _ in range(number_signals)]
 
     def simulate_trigger_signal(self):
-        # TODO: Come up with a nice way to simulate this
-        message = b"Trigger fridge flag"
-        self.channel.basic_publish(exchange="topic_logs", routing_key=self.routing_key, body=message)
-        print(" [x] Sent %r:%r" % (self.routing_key, message))
+        while True:
+            for i in range(len(self.signals)):
+                if self.signals[i]:
+                    message = "{}:{}".format(self.signals[i], self.name)
+                    self.signals[i] = not self.signals[i]
+                    self.channel.basic_publish(exchange="topic_logs", routing_key=self.routing_key, body=message)
+                    print(" [x] %s Sent %r:%r" % (self.name, self.routing_key, message))
+                    sleep(5)
 
 
 if __name__ == "__main__":
-    # TODO: Not super convinced about this type signal. Need to re-think it
-    C1 = Camera(name="fridge", type_signal=bool)
+    C1 = Camera(
+        name="ingredients_monitoring",
+        route_destination="ingredients.chef.robot",
+        number_signals=1,
+        signals_initial_state=False,
+    )
