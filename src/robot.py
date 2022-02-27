@@ -1,5 +1,6 @@
 from broker import rabbitmq_consumer
 from tools import *
+import functools
 
 
 class Robot:
@@ -14,7 +15,8 @@ class Robot:
         self.channel, self.queue_name = rabbitmq_consumer(self.binding_key)
 
     def _robot_consume(self):
-        self.channel.basic_consume(queue=self.queue_name, on_message_callback=self.tool.callback, auto_ack=False)
+        on_message_callback = functools.partial(self.tool.callback, args=self.tool)
+        self.channel.basic_consume(queue=self.queue_name, on_message_callback=on_message_callback, auto_ack=False)
         self.channel.start_consuming()
 
     def _set_binding_key(self):
@@ -23,8 +25,8 @@ class Robot:
 
 
 if __name__ == "__main__":
-    Rct = Robot("chef", ingredients.IngredientsTool())
-    # Rcp = Robot("Chef", pick.PickTool())
+    #Rct = Robot("chef", ingredients.IngredientsTool(["tomatoes", "cheese"], ["pick.chef.robot"]))
+    Rcp = Robot("chef", pick.PickTool(["ingredients.chef.robot"]))
 
     # Rpp = Robot("Prod", delivery.DeliveryTool())
     # Rpt = Robot("Prod", slicer.SliceTool())
