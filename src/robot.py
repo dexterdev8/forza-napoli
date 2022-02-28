@@ -21,12 +21,11 @@ class Robot:
 
     def _set_binding_key(self):
         self.binding_key = "{}.{}.robot".format(self.tool, self.role)
-        print(self.binding_key)
 
 
 if __name__ == "__main__":
-    #Rct = Robot("chef", ingredients.IngredientsTool(["tomatoes", "cheese"], ["pick.chef.robot"]))
+    Rci = Robot("chef", ingredients.IngredientsTool(["tomatoes", "cheese"], ["pick.chef.robot"]))
     Rcp = Robot("chef", pick.PickTool(["ingredients.chef.robot"]))
 
-    # Rpp = Robot("Prod", delivery.DeliveryTool())
-    # Rpt = Robot("Prod", slicer.SliceTool())
+    Rpd = Robot("prod", delivery.DeliveryTool(["slicer.prod.robot"]))
+    Rps = Robot("prod", slicer.SliceTool(["delivery.prod.robot"]))
