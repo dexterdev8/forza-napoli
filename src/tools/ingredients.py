@@ -3,11 +3,11 @@ from broker import rabbitmq_producer
 
 
 class IngredientsTool:
-    def __init__(self, ingredients, robot_communication):
+    def __init__(self, ingredients, coworker_communication):
         self.ingredients = ingredients
-        self.robot_communication = robot_communication
+        self.coworker_communication = coworker_communication
 
-    def simulate_work_sequence(self):
+    def ingredients_sequence(self):
         for ingredient in self.ingredients:
             print("Adding {} ...".format(ingredient))
             sleep(5)
@@ -16,7 +16,8 @@ class IngredientsTool:
     def callback(ch, method, properties, body, **args):
         print(" [x] %r:%r" % (method.routing_key, body))
         thisTool = args["args"]
-        thisTool.simulate_work_sequence()
+        thisTool.ingredients_sequence()
+        #thisTool.simulate_work_sequence()
         channel = rabbitmq_producer()
         for destination_route in thisTool.coworker_communication:
             message = b"Task successfully completed"

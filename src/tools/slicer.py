@@ -6,7 +6,7 @@ class SliceTool:
     def __init__(self, coworker_communication):
         self.coworker_communication = coworker_communication
 
-    def simulate_work_sequence(self):
+    def slice_sequence(self):
         # Perform some accion
         print("Slicing pizza into beautiful pieces...")
         sleep(10)
