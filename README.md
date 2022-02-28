@@ -30,9 +30,10 @@ Routes of each robot will be differentiated based on the tool and the location o
 |Rps|slice.prod.robot|
 
 ##Tools
-Tools come in all sorts of size and shapes. What it cannot be considered is, each robot has all the tools at the same time.
-Each robot has one tool attached and is the tool the element that determines what kind of routine or sequence the robot will perform.
-This way, when introducing a new tool (we create a new tool in the "tools" folder), we can easily instantiate a new robot with the new tool attached
+Tools come in all sorts of size and shapes. What it cannot be considered is, each robot has all the tools at the 
+same time. Each robot has one tool attached and is the tool the element that determines what kind of routine or 
+sequence the robot will perform. This way, when introducing a new tool (we create a new tool in the "tools" folder), 
+we can easily instantiate a new robot with the new tool attached
 ### Ingredients
 This tool has one task, to spread the ingredients on the pizza
 
@@ -88,12 +89,13 @@ Checks if the slicing have been performed correctly
 - If quality is bad, tells Rpi to slice it again.
 
 ### Cameras 8, 9 and 10
-Save that money! To be honest I cannot think about any other needed monitoring. For sure there is, but I cannot imagine right now
+Save that money! To be honest I cannot think about any other needed monitoring. For sure there is, 
+but I cannot imagine right now
 
 ## Communication
 It has been decided to use RabbitMQ due to the simplicity that offers when it comes to build this kind of prototypes.
 The communication between all elements is performed using "topic exchange". Nevertheless, this approach is preferred
-due to the easy way of creating the route hierarchy between cameras and robots. At the end of the day, this system behaves
-as if it is implemented using direct exchange
+due to the easy way of creating the route hierarchy between cameras and robots. At the end of the day, 
+this system behaves as if it is implemented using direct exchange
 
 Ref: https://www.rabbitmq.com/tutorials/tutorial-five-python.html
